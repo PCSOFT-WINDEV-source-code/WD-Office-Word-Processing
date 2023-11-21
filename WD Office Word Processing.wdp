@@ -1,0 +1,95 @@
+#To edit and compare internal_properties, use WINDEV integrated tools.
+#Internal properties refer to the properties of controls in windows, reports, etc.
+info :
+ name : WD Office Word Processing
+ major_version : 28
+ minor_version : 0
+ type : 4097
+ description : ""
+ subtype : 0
+project :
+ identifier : 0x0
+ internal_properties : CAAAAAgAAAAc2MFTlKYyku6gdm1xARY8xyX5mIiafT3AtdEo3yJhWAQPs5QnmbVRguN+MqooUuoYfX6EBo7q3iaISYqhOs/6CFU7h1KK1Y1JFbYrv/aADWoUwLRNBdeQne/867PxdWaVFXyAm3HPoiqbxXtFa8RzgUdmKoFjgGxajgymXf/Xa2C/w1BuG+iXNlMVvqCnXWRJhjYG3aukJEswTZyjep8qUJEmEVuIC+RVZF24VJqMS01l1S5DvWxWF2iWJsuXji9Zjo3BBDnk+mt3uaZPOnqBwqYQ94E7zSvyhHRP0/FhzBrer6FJ0/34FKhsSaYSSHUZaWEGA0XLR4MYUbS+nSV38cgv+n/ECJlGSup6hRmShrNceoIuh9IQ4N6ionI3mpiIb1kOu19IQwDNxpdEO8qLmpy6MDpG+IJfuJ8ZpU8jyNtI2Kd9Ix7dARsHO+ow28khbgyUcjMN+brACY7yQpwmm+h/gBPl+MrN8ga790Gq7yFZbbL55bqS8x6YyO3Ud8iQ7wjq8+Pr++7Ro1VPdoBBSG7Onr+Q2VyIwsw0lAxycbbNUOFLSKm+7VNIG6m31Jf4EO5BL8fpV4M+zzuF0GM7xNRge372lZFXZjhdE/brCUGgj2k/O3TF2VWaKq1aly0JTAFcJXXndCKKsT6z2HfiUEYCBg6R2LBEBlr9apHu96smZkcG+DuEjQfnwb2ISlGwYh3ccYw4fBRMydw8eWUrWN2IJWU4lF5QSKyKRZHSHDh0Zv/5oA9wcrjE7QiasoDEs6PmkQBqBdkhlru6RwK/vHx4lt0bcaVzyZTrd86TktmHK//7fVtkVaUrmJq1aozZl1IU7xSSQv767LWbOCz/MhDagYtuOzlUJoCoPYZFQZfOMveI/mSj21i6d0iMFc4OdYAqYK6AT26VRIiPrUBPyTtZnS0JkKN6CSJfO0UB+CRNRu8WeKk/lPAmWygfdk8wIcVMKGLsXvKrqJrX3bHvmdC3RaMxN78ucELpuAGc34DhcnHWoFqvwrB7V9fsvNveJjXg/4AFP9/RUcupefkg4XWD1Mh+NbGTwKlg4X0YjbcCxGubFWkfOnAfOQ/3BKvXFdG9DA9P1271AlD9tsLLQCEvMUwx2qQbJEBgTeWGGrjpp2VEVh7FVYBKn1oTKHXSQ0lQnZwMF0hzD0PT9aBHPqYWdAl/vAjOdKfbek3VOQ7UUpyfYZbeTzuuRTBGCWXFbDCxGNYnz4gchimgeNT56SWmAH6+5NDh3xh8/95P1OwQHLZQ8WKd/enL3tICDDeWbn897J/TR2V8oWRwcdPP5808v6cYrqQvb7uU5OWrlTfoYK/sRc6ze/KfPe9tuoy4XTwEoKjc/MoN1MVrJYbg5qt+3dI7bAIrqkWcYpFHQvpPgWTfxbgqniUNuyE3wMypKn5LHUTm1pCqdS/VrDl/VNxW8zAteG4JAYa20FZW9cXWPBI2Ak4IfdC+kjmfH4mFNTb5vUwGAFgqzWInEFZqyDFPoHrBvFOtoFF68ftgNTzV+MfLXreTQ80tl3GvJ7CNkbCDpgo2XPUD071+k9204zwwQU8KE2Rjokrr1fl7EQpn2z4M1WLFFIMYVOgtvwzbyWhSmeJaxLB/qoD1T8VtYU0503ORVnpX7osKU43ouGru0m2H3T5OqphTk1GrAJk8q+1wNDzYV3JpkTw8QHg2MFekUi2NxHk9FHZNHmsC5cvl9sBcQQoEnfw7BIQzOKyT+YLWKlYXLdDTSJDbXseyhPNn0N+deiMUpTeXicue+rzF9Dhxnow0Yush5nXhCigOrCKO7j+2tneY5LQrKsG/WcGoQ5gZafyuRrPJ++5FUSUhIRwrt44h0U5mqhQ07LACWeqvzaRit6px0qVo/ScPEUgGXbuT3s8e0GZGiBbCYIKE0e66gwckJqkstHCVnJSGdBLkvQl29DrobkwbDE21K37r57uI3zk2hYt8Px5BWuRhensFVH8olieMBjx7doGbmlUDWhNHnDXmgPj2HsFRAh1V35caKNaJLbvsFaQAAHWpETLtpofPBMsmlIlADKpMJT2CKoSzTd00CWXLVr8v6lBAksy18IRf4wbgbCJU5DsQLXoWFDThrUchUSuyXZlxAbXuUDhXstUgdon2azqXVOfptjXYYFB5L8TP
+ configurations :
+  -
+    name : Windows 32-bit executable
+    internal_properties : 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
+    configuration_id : 14309581928719396403
+    type : 1
+    generation_name : WD Office Word Processing.exe
+    version :
+     major_version : 23
+     minor_version : 31
+     internal_generation_version : 14
+     autoincrement_version : false
+    icon_filename : .\description.ico
+    language : 2
+ elements :
+  identifier : 0x4a16f09000b1abd7
+  elements :
+   -
+     name : WIN_TT
+     identifier : 0x4a16f99f01280f0b
+     internal_properties : CAAAAAgAAAB23F5CYd5WWWSgaZc8lloMfG1702AwCpSixtRtW989uwXNIv0qn/A5Rfnj3aVbJ5lj4w==
+     physical_name : .\WIN_TT.wdw
+     type : 2
+   -
+     name : TEST_TT
+     identifier : 0x4aec510800342e7f
+     internal_properties : CAAAAAgAAAD4ViB8y/C44+IQm1693K/G/kFdzeRaFPyiBtp25DZmgk685zcI+AB9z3NtS8sF/fPdZQ==
+     physical_name : .\TEST_TT.wxt
+     type : 17
+  other_elements : []
+  net_assemblies : []
+  uwp_api : []
+  external_components : []
+  internal_components :
+   -
+     physical_name : .\WD Office\WD Office.wci
+ report_and_queries_enabled : false
+ data_directory : <ExeDirOrDataDirCommon>
+ common_generation_directory : true
+ languages :
+  - en-GB
+ code_elements :
+  internal_properties : CAAAAAgAAAC5XmlW5PFGP8MQ3InhQGuyel69y+AXAtiiogc8up0up91jYWyAa75hfowjIYV7XTnmqvW0rZYgzosTjqWRj7ivQrEKFWyDMjvR
+  type_code : 0
+  p_codes :
+   -
+     internal_properties : CAAAAAgAAABDmC/MY9CpswtaB+HdKbnqPHN/0BYfOyW2zQkxG9PRPS/aBtXOLDVgZIcHV5g6ZCRhRduDU1md4jL1XPE8l/tApA5DEZtA/FHNWly4Qn1iK+Sm2TVMT8065zKsaw3kKcTD2uVhhCEFChP7rcOOkReIjpdJTnwpcDnhiDCf8jXFCwrjCb3ibhw+AwFzTLZI98C6pOcr8F4SAiXKQg==
+     code : |1+
+      // Extension suported by the WP control
+      constant
+      	WP_EXTENSION_DOCX = "docx"
+      end
+      
+      // Declares the supported extension to the Office component
+      // The component manages the association from the command line (/shellassoc, /shellunassoc)
+      DeclareExtensions(WP_EXTENSION_DOCX, "docx files" )
+      
+      
+     type : 196608
+   -
+     type : 196621
+   -
+     type : 196627
+     enabled : false
+  orphans :
+   -
+     name : Windows 32-bit executable
+     identifier : 0x4a16f09000b2abe7
+     code_elements :
+      type_code : 159
+      p_codes : []
+ code_parameters :
+  internal_properties : CAAAAAgAAACVGQgYbalU7DKC3oH4ItDrjtcTHXXV/EuH8q0IbhyQlw==
+rad :
+ internal_properties : CAAAAAgAAABhIL0UXeZmxDJxY3Xy0Q==
+project_explorer :
+ explorer_type : project
+resources :
+ string_res :
+  identifier : 0x0
+  internal_properties : CAAAAAgAAACm76HWfKGWp33VjXInA4cRlqArlgTTA862QGt72W2ld5Y=
+custom_note :
+ internal_properties : CAAAAAgAAAAd98VSJfHHqE3P0QHwrwdhn7ig8dWBR6valpUTgnAMTVXiDg==

@@ -1,0 +1,284 @@
+#To edit and compare internal_properties, use WINDEV integrated tools.
+#Internal properties refer to the properties of controls in windows, reports, etc.
+info :
+ name : SET_SETTING
+ major_version : 28
+ minor_version : 0
+ type : 7
+ description : ""
+ subtype : 0
+procedure_set :
+ identifier : 0x1a5887920282f9a3
+ internal_properties : CAAAAAgAAABGLu41kG7fjQV3iS4F72qmnKaNh5694reolNKIW0iw
+ code_elements :
+  type_code : 31
+  p_codes :
+   -
+     internal_properties : CAAAAAgAAACVvFSmcV8QR0f0NbcITDh1BK6cik+d+ZHxAmRa5pl/CciFTZWsa0Gf6nEaa3WEaQTrn+nn3GUab+AZPUaPt/fkfdFF7RyLxctB+kYrpUPqYZtAUfulw0XsTYZT7UtTAtR5tYKA8rOv3sLFcWpP9nw0CzJOysydxraT8Gi9mQ8aGQ==
+     code : |1-
+      
+      MRUElement is Structure
+      	FullPath 	is string		<Serialize = "path">
+      	AccessDateTime 	is datetime	<Serialize = "access_time">
+      	DocPosition		is numeric	<Serialize = "pos">
+      end
+      
+      EXTENSION_DOCUMENT is string = ""
+      EXTENSION_DOCUMENT_PICKER is string = ""
+      DESCRIPTION_DOCUMENT is string = ""
+      
+      MRU is array of MRUElement = MRULoad()
+      gnDocumentCounter is int = 1	// Counter of new documents
+      gbCommandLineProcessed is boolean = False
+     type : 720896
+   -
+     code : |1-
+      
+      // MRU backup
+      MRUSave()
+     type : 720898
+  procedures :
+   -
+     name : AssociateExtensions
+     internal_properties : CAAAAAgAAADeWdq8KmLyoRhYB+Em1DtOCTbOKqbh3UZarFSRwWr6ewyJK0rp9CCZUipGmI7oad4aolajpti1ExKeXTasrsRhOTpoHEjo755wCCK7Q8jnjL0yEvRUyZalYwBri4Zry/LiIbIS+5xgCx8aldY/3yKPGG50dZOEjzQ/dEM/JPS0qYlbA3ECvSSRf+xO9svP6sJwCBPqJa4=
+     procedure_id : 1898416304113842595
+     type_code : 15
+     code : |1-
+      // Summary: Associates the extensions with the program
+      // Syntax:
+      //[ <Result> = ] AssociateExtensions ([<bAssociation> is boolean])
+      //
+      // Parameters:
+      //	bAssociation (boolean - default value=1): True to associate, False to dissociate
+      // Return value:
+      // 	boolean: True if the association was run, False otherwise
+      //
+      Procédure AssociateExtensions(bAssociation is boolean = True) : boolean
+      
+      // If we have administrator privileges or if the UAC is not active
+      if ExeHighPrivileges() _or_ UACActive() = False then
+      	
+      	if bAssociation then
+      		
+      		for each string sExtension of EXTENSION_DOCUMENT SEPARATED BY ";"
+      			// Associates the extension
+      			SysLinkExtension(["."] + sExtension, ExeInfo(exeName) + " ""%1""")
+      		end
+      		
+      		result True
+      	else
+      		
+      		for each string sExtension of EXTENSION_DOCUMENT SEPARATED BY ";"
+      			// Dissociates the extension
+      			SysUnlinkExtension(["."] + sExtension)
+      		end
+      		
+      		result True
+      	end
+      else
+      	
+      	// Restart the application with the relevant privileges to run the action
+      	result RunAppWithElevation(ExeInfo(exeName), "/shell" + (bAssociation ? "" else "one") + "assoc")
+      end
+     type : 458752
+   -
+     name : DeclareExtensions
+     internal_properties : CAAAAAgAAABs5bhWzMaOXTdot+90pWwGuQKedppm1s1VsYfrIJYDTcktm0/LCIgGzaWeJzjo22dW9JDoOQfcQWAhXFzYJifqZacXEFsH3RTvd2ftkcK/cE8+n4PYA2zYUld5WEtClOHusGBwfSbOln/Hwn6ml+K0XLUa2xFGLRWj7Sz18wb8/uFVWhPUlo4TEocKEbQFXW5OUkmR7PqwqUn8c2Fv5ThTOFOBbPE70RtEfa7HfDObBA+uNdOhyMAeGekXwPXhGw==
+     procedure_id : 1898416304113908131
+     type_code : 15
+     code : |1-
+      // Summary: Declares the extensions supported by the tool
+      // Syntax:
+      //DeclareExtensions (<sExtensions> is string [, <sDescription> is string])
+      //
+      // Parameters:
+      //	sExtensions (ANSI string): Supported file extensions separated by ";"
+      //	sDescription (ANSI string - default value=""): General description of extensions
+      // Return value:
+      // 	None
+      //
+      Procédure DeclareExtensions(local sExtensions is string, local sDescription is string = "")
+      
+      // Stores the extensions
+      EXTENSION_DOCUMENT = Lower(sExtensions)
+      EXTENSION_DOCUMENT_PICKER = ""
+      
+      // Stores the document description
+      if sDescription = "" then sDescription = "Files " + ExtractString(Upper(EXTENSION_DOCUMENT), 1, ";")
+      DESCRIPTION_DOCUMENT = sDescription
+      
+      // For each declared extension
+      for each string sExtensions of EXTENSION_DOCUMENT SEPARATED BY ";"
+      	EXTENSION_DOCUMENT_PICKER += [";"] + ("*" + (["."] + sExtensions))
+      end
+      
+      // If the command line /shellassoc was received
+      if CommandLine() [=] "/shellassoc" then
+      	
+      	gbCommandLineProcessed = True
+      	
+      	// Associates the extension
+      	AssociateExtensions()
+      	
+      	// Immediate  program closing
+      	EndProgram(True)
+      end
+      
+      // If the command line /shellunassoc was received
+      if CommandLine() [=] "/shellunassoc" then
+      	
+      	gbCommandLineProcessed = True
+      	
+      	// Dissociates the extension
+      	AssociateExtensions(False)
+      	
+      	// Immediate  program closing
+      	EndProgram(True)
+      end
+     type : 458752
+   -
+     name : MRULoad
+     internal_properties : CAAAAAgAAABknwDWecBqobbWm1VaWrt+I5DkTLJPaX7xnJw1LcTWIuCHQYwJVgTlfCRWiDaiFWrIcDRlNkIBw6QwQT58KGyRAzTqAsSeExJqYv62QMn6YQLfxaH5ArfUUD3Y0neQAqunbg2fQEUJQnRnoonwNLXc6V/rrtS3exR5fo2hnoV7qmKcXiaDcpHskOUX9ajosRO1jqlE3/Q=
+     procedure_id : 1898416304113973667
+     type_code : 15
+     code : |1-
+      // Summary: Loads the list of documents previously opened
+      // Syntax:
+      //[ <Result> = ] MRULoad ()
+      //
+      // Parameters:
+      //	None
+      // Return value:
+      // 	array: List of documents
+      //
+      // Automatic process of exceptions:   run CASE EXCEPTION:
+      //
+      
+      Procédure MRULoad() : array of MRUElement
+      
+      arrMRU is array of MRUElement
+      sJSON is string ANSI
+      sMRUFile is string = fDataDirUser() + [fSep] + "mru.json"
+      
+      // Checks the file existence
+      if fFileExist( sMRUFile ) = False then
+      	result arrMRU
+      end
+      
+      // Loads the data
+      sJSON = fLoadText( sMRUFile )
+      
+      // Empty backup
+      if sJSON = "" then
+      	result arrMRU
+      end
+      
+      // Deserializes the content
+      Deserialize(arrMRU, sJSON, psdJSON)
+      
+      // Deletes the oldest entries
+      while arrMRU..Count > 100
+      	arrMRU.Delete( LastElement )
+      end
+      
+      // Copies the list again
+      result arrMRU
+      
+      case exception:
+      result arrMRU
+     type : 458752
+   -
+     name : MRUSave
+     procedure_id : 1898416304114039203
+     type_code : 15
+     code : |1-
+      // Summary: Saves the list of documents previously opened
+      // Syntax:
+      //MRUSave ()
+      //
+      // Parameters:
+      //	None
+      // Return value:
+      // 	None
+      //
+      Procédure MRUSave()
+      
+      sJSON is string ANSI
+      
+      // Serializes the data
+      Serialize(MRU, sJSON, psdJSON)
+      
+      // Local backup
+      fSaveText( fDataDirUser() + [fSep] + "mru.json", sJSON)
+     type : 458752
+   -
+     name : MRUAdd
+     procedure_id : 1898416304114104739
+     type_code : 15
+     code : |1-
+      // Summary: Stores the opening of a document in the list of documents opened beforehand
+      // Syntax:
+      //MRUAdd (<sPath> is string [, <xDocPos> is numeric])
+      //
+      // Parameters:
+      //	sPath (UNICODE string): Path of document
+      // 	xDocPos (numeric - default value=-1): Position to store in the document (-1 to avoid changing this value)
+      // Return value:
+      // 	None
+      //
+      Procédure MRUAdd(local sPath is string, local xDocPos is numeric = -1)
+      
+      nSubscript is int
+      stElement is MRUElement
+      
+      // Creates an entry
+      stElement.FullPath = sPath
+      stElement.AccessDateTime = DateTimeLocalToUTC( SysDateTime )
+      
+      // Position to store
+      if xDocPos <> -1 then
+      	stElement.DocPosition = xDocPos
+      end
+      
+      // Checks whether this document is already found in the list
+      nSubscript = Seek(MRU, asLinear + tccIgnoreCase, "FullPath", sPath)
+      
+      if nSubscript > 0 then
+      	
+      	// No modification of position
+      	if xDocPos = -1 then
+      		
+      		// Use the position that was stored beforehand
+      		stElement.DocPosition = MRU[ nSubscript ].DocPosition
+      	end
+      	
+      	// Update
+      	MRU[ nSubscript ] = stElement
+      else
+      	
+      	// Add
+      	MRU.Add( stElement )		
+      end
+      
+      // Sort the MRU by descending access date
+      MRU.Sort(asMember, "-AccessDateTime")
+      
+      // Deletes the oldest entries
+      while MRU..Count > 100
+      	MRU.Delete( LastElement )
+      end
+      
+      // Saves
+      MRUSave()
+     type : 458752
+  procedure_templates : []
+  property_templates : []
+ code_parameters :
+  internal_properties : CAAAAAgAAACVGQgYbalU7DKC3oH4ItDrjtcTHXXV/EuH8q0IbhyQlw==
+  original_name : COL_SansNom1
+resources :
+ string_res :
+  identifier : 0x1a1457fe0064b1e4
+  internal_properties : CAAAAAgAAACm76HWfKGWp33VjXInA4cRlqArlgTTA862QGt72W2ld5Y=
+custom_note :
+ internal_properties : CAAAAAgAAABtB9HWVzrXO2+4NDRVK0vmzaNKrCKqH1DBX30lMmGZ

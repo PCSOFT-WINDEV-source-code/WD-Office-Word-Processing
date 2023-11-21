@@ -1,0 +1,182 @@
+#To edit and compare internal_properties, use WINDEV integrated tools.
+#Internal properties refer to the properties of controls in windows, reports, etc.
+info :
+ name : SET_WDAAF_RIBBON
+ major_version : 28
+ minor_version : 0
+ type : 7
+ description : ""
+ subtype : 0
+procedure_set :
+ identifier : 0x1a58879502ad0396
+ internal_properties : CAAAAAgAAABGLu41kG7fjQV3iS4F72qmnKaNh5694reolNKIW0iw
+ code_elements :
+  internal_properties : CAAAAAgAAABPOo5wfzL5PtlmH9g6pVlcqG1md+uM4GM8B/k/aVja5R6ZseBzxTGWZbo12UeE8bWym5Rl91AKrNq9wTYnFyamg2lAMw==
+  type_code : 31
+  p_codes : []
+  procedures :
+   -
+     name : RibbonDuplicatePanes
+     procedure_id : 1898416317001499542
+     type_code : 15
+     code : |1-
+      // Summary: Duplicates the ribbon panes in another ribbon
+      // Syntax:
+      //RibbonDuplicatePanes (<oSourceRibbon> is control, <oDestinationRibbon> is control [, <arrPaneSubscripts> is array])
+      //
+      // Parameters:
+      //	oSourceRibbon (control): Source ribbon containing the panes to duplicate
+      //	oDestinationRibbon (control): Destination ribbon where the panes will be duplicated
+      //	arrPaneSubscripts (array): List of pane subscripts to duplicate. Il this parameter is not specified, all the panes of <oSourceRibbon> will be duplicated
+      // Return value:
+      // 	None
+      //
+      Procédure RibbonDuplicatePanes(oSourceRibbon is Control, oDestinationRibbon is Control, local arrPaneSubscripts is array of int = [])
+      
+      oSourceRibbon..Style = oDestinationRibbon..Style
+      oSourceRibbon..Height = oDestinationRibbon..Height
+      
+      	INTERNAL PROCEDURE ___ClearRibbonPane(oPane is Control)
+      	
+      	// Deletes the grouping from cloned pane
+      	nSubscript is int = 1
+      	sControlName is string = EnumControl(oPane..FullName, nSubscript)
+      	while sControlName <> ""
+      		
+      		// Deletes the grouping 
+      		ControlDelete(oPane..FullName + ["."] + sControlName)	
+      		
+      		continue:
+      		sControlName = EnumControl(oPane..FullName, nSubscript)
+      	end
+      	end
+      
+      	INTERNAL PROCEDURE ___DuplicateRibbonPane(oPane is Control, oDestinationPane is Control)
+      	
+      	// Enumerates the controls and grouping from pane [i]
+      	nSubscript is int = 1
+      	sControlName is string = EnumControl(oPane..FullName, nSubscript)
+      	while sControlName <> ""
+      		
+      		// Clones the control
+      		oClone is Control <- ControlClone(oPane..FullName + "." + sControlName, oDestinationPane..FullName + "." + GetGUID(guidRough))
+      		
+      		nSubscript ++			
+      		sControlName = EnumControl(oPane..FullName, nSubscript)
+      	end			
+      	end
+      
+      // Clones the ribbon panes
+      for i = 1 _to_ oSourceRibbon..Count
+      	
+      	// If a list of pane subscripts was supplied and if the subscript does not match, goes to the next one
+      	if not (arrPaneSubscripts..Count = 0 _or_ Seek(arrPaneSubscripts, asLinear, i) > 0) then
+      		continue
+      	end
+      	
+      	// Clones a pane found in the ribbon of spreadsheet control
+      	oClone is Control <- ControlClone(oDestinationRibbon[1], "ITM_" + GetGUID(guidRough))
+      	
+      	// Clears the controls in this cloned pane
+      	___ClearRibbonPane(oClone)
+      	
+      	// Copies the properties
+      	oClone..ToolTip = oSourceRibbon[i]..ToolTip
+      	oClone..Color = oSourceRibbon[i]..Color
+      	oClone..State = oSourceRibbon[i]..State
+      	oClone..Grayed = oSourceRibbon[i]..Grayed
+      	oClone..Image = oSourceRibbon[i]..Image
+      	oClone..Caption = oSourceRibbon[i]..Caption
+      	oClone..Visible = oSourceRibbon[i]..Visible
+      	
+      	// Copies the grouping and the controls of RIBBON_NoName1	
+      	oPane is Control <- oSourceRibbon[i]
+      	___DuplicateRibbonPane(oPane, oClone)
+      	
+      end
+     type : 458752
+   -
+     name : RibbonAddGrouping
+     procedure_id : 1898416317001565078
+     type_code : 15
+     code : |1-
+      // Summary: Adds an existing grouping into a ribbon pane
+      // Syntax:
+      //[ <Result> = ] RibbonAddGrouping (<oRibbon> is control, <nPaneSubscript> is int, <oGrouping> is control)
+      //
+      // Parameters:
+      //	oRibbon (control): Ribbon containing the pane into which the grouping will be added
+      //	nPaneSubscript (integer): Pane subscript
+      //	oGrouping (control): Existing grouping that will be added into the pane. This grouping will be cloned
+      // Return value:
+      // 	control: Added grouping. 
+      //
+      Procédure RibbonAddGrouping(oRibbon is Control, nPaneSubscript is int, oGrouping is Control)
+      
+      XMAX is int	
+      nSubscript is int = 1
+      sControlName is string
+      
+      // 1 - Defines the position to add the grouping
+      
+      // Enumerates the pane controls
+      sControlName = EnumControl(oRibbon[nPaneSubscript]..FullName, nSubscript)
+      while sControlName <> ""
+      	
+      	// Takes a reference on the control
+      	oControl is Control <- {oRibbon[nPaneSubscript]..FullName + "." + sControlName, indControl}
+      	
+      	// Calculates the max position
+      	XMAX = Max(XMAX, oControl..X + oControl..Width)
+      	
+      	nSubscript ++
+      	sControlName = EnumControl(oRibbon[nPaneSubscript]..FullName, nSubscript)
+      end
+      
+      // 2 - Adds the grouping
+      
+      // Clones the grouping
+      oClone is Control <- ControlClone(oGrouping, oRibbon[nPaneSubscript]..FullName + "." + GetGUID(guidRough), XMAX, 3)	
+      
+      result oClone
+     type : 458752
+   -
+     name : DeclareShortcut
+     procedure_id : 1898416317001630614
+     type_code : 15
+     code : |1-
+      // Summary: Declares a keyboard shortcut and associates it with a procedure
+      // Syntax:
+      //DeclareShortcut (<nKeys> is int, <pCallback> is procedure)
+      //
+      // Parameters:
+      //	nKeys (integer): Key combination (see ..ShortcutKey)
+      //	pCallback (procedure): Procedure to run when enabling the shortcut
+      // Return value:
+      // 	None
+      //
+      Procédure DeclareShortcut(nKeys is int, pCallback is Procédure)
+      
+      // Creates an off-screen button
+      oShortcut is Control <- ControlCreate("BTN_SHORTCUT_" + GetGUID(guidRough), typButton, -100, -100, 5, 5, True)
+      
+      // Positions the button on general plane 0
+      oShortcut..Plane = 0
+      
+      // Assigns the shortcut keys
+      oShortcut..ShortcutKey = nKeys
+      
+      // Assigns the procedure to the click
+      oShortcut..Process[ trtClick ] = pCallback
+     type : 458752
+  procedure_templates : []
+  property_templates : []
+ code_parameters :
+  internal_properties : CAAAAAgAAACVGQgYbalU7DKC3oH4ItDrjtcTHXXV/EuH8q0IbhyQlw==
+  original_name : COL_SansNom1
+resources :
+ string_res :
+  identifier : 0x1a1552e500285198
+  internal_properties : CAAAAAgAAACm76HWfKGWp33VjXInA4cRlqArlgTTA862QGt72W2ld5Y=
+custom_note :
+ internal_properties : CAAAAAgAAABtB9HWVzrXO2+4NDRVK0vmzaNKrCKqH1DBX30lMmGZ
